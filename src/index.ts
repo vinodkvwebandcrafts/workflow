@@ -19,10 +19,12 @@ export default {
 
         if(ct?.kind === 'singleType') {
           const title = result.title;
+          const description = result.description;
           const url = result.slug;
           await strapi.documents('api::url-mapper.url-mapper').create({
             data: {
               title,
+              description,
               url,
               type: 'single',
               cid: result.id,
@@ -33,8 +35,9 @@ export default {
                 
         if(ct?.kind === 'collectionType') {
           const title = result?.title;
+          const description = result?.description;
           const url = result?.url;
-          const cid = result?.id;
+          const cid = result?.documentId;
           const uid = model?.uid;
           const existing = await strapi.db.query('api::url-mapper.url-mapper').findOne({
             where: {
@@ -45,6 +48,7 @@ export default {
           await strapi.documents('api::url-mapper.url-mapper').create({
             data: {
               title,
+              description,
               url,
               type: 'collection',
               cid,
@@ -57,6 +61,8 @@ export default {
 
       if(event.action === 'afterUpdate') {
 
+        if (model.uid === 'api::url-mapper.url-mapper') return;
+
         const data = await strapi.db.query('api::url-mapper.url-mapper').findOne({
           where: {
             cid: result?.documentId,
@@ -65,35 +71,31 @@ export default {
 
         if(!data) return;
 
-        const published = await strapi.db.query(model?.uid).findOne({
-          select: ['publishedAt'],
+        const published = await strapi.db.query(model.uid).findOne({
           where: {
             documentId: result?.documentId,
+            publishedAt: {
+              $not: null,
+            }
           },
         })
 
         console.log('published==', published)
-
-        const updated = await strapi.documents('api::url-mapper.url-mapper').update({
-          documentId: data?.documentId,
+        
+        const updated = await strapi.db.query('api::url-mapper.url-mapper').update({
+          where: {
+            cid: result?.documentId,
+          },
           data: {
             title: result?.title,
+            description: result?.description,
             url: result?.url,
-            published: result?.publishedAt ? true : false,
+            published: !!published?.publishedAt ? true : false,
           },
         })
-
-        // if(data?.publishedAt) {
-        //   await strapi.documents('api::url-mapper.url-mapper').update({
-        //     documentId: data?.id,
-        //     data: {
-        //       published: true,
-        //     },
-        //   })
-        // }
-
-        
+        console.log('updated==', updated)
       }
+
     });
   },
 
