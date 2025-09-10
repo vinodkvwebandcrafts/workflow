@@ -402,6 +402,33 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSearchSearch extends Struct.SingleTypeSchema {
+  collectionName: 'searches';
+  info: {
+    displayName: 'search';
+    pluralName: 'searches';
+    singularName: 'search';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::search.search'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiUrlMapperUrlMapper extends Struct.CollectionTypeSchema {
   collectionName: 'url_mappers';
   info: {
@@ -946,6 +973,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::blog.blog': ApiBlogBlog;
+      'api::search.search': ApiSearchSearch;
       'api::url-mapper.url-mapper': ApiUrlMapperUrlMapper;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
