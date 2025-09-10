@@ -1,0 +1,24 @@
+{
+  "name": "strapi-plugin-global-search",
+  "version": "0.0.0",
+  "description": "Global search plugin for Strapi",
+  "strapi": {
+    "name": "global-search",
+    "description": "Global search functionality across content types",
+    "kind": "plugin"
+  },
+  "dependencies": {},
+  "author": {
+    "name": "Your Name"
+  },
+  "maintainers": [
+    {
+      "name": "Your Name"
+    }
+  ],
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
