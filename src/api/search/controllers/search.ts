@@ -24,13 +24,8 @@ export default factories.createCoreController('api::search.search' as any, ({ st
         select: ['id', 'url', 'title', 'description'],
         where: {
           $or: [
-            // { title: { $containsi: query } },
-            // { description: { $containsi: query } },
             { content: { $containsi: query } },
           ],
-          // publishedAt: {
-          //   $not: null,
-          // },
         },
         limit: 5,
       });
