@@ -15,6 +15,7 @@ export default factories.createCoreController('api::search.search', ({ strapi }:
     // List your content types here
     const contentTypes = [
       'api::blog.blog',
+      'api::service.service',
     ];
 
     const results: any[] = [];
@@ -25,6 +26,7 @@ export default factories.createCoreController('api::search.search', ({ strapi }:
           $or: [
             { title: { $containsi: query } },
             { description: { $containsi: query } },
+            { content: { $containsi: query } },
           ],
           publishedAt: {
             $not: null,
@@ -33,12 +35,13 @@ export default factories.createCoreController('api::search.search', ({ strapi }:
         limit: 5,
       });
 
-      const sanitizedEntries = await strapi.contentAPI.sanitize.output(entries, uid, { auth: false });
+      const model = strapi.contentTypes[uid];
+      const sanitizedEntries = await strapi.contentAPI.sanitize.output(entries, model);
 
       if (entries.length > 0) {
         results.push(
           {
-            contentType: uid, 
+            contentType: uid,
             entries
           }
         );
