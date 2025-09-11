@@ -1,7 +1,10 @@
 import type { Core } from '@strapi/strapi';
+import flattenObject from '../utils/flattenObject';
 
 export default {
-  register({ strapi }: { strapi: Core.Strapi }) {
+  register({ strapi }: { strapi: Core.Strapi }) {},
+
+  bootstrap({ strapi }: { strapi: Core.Strapi }) {
     strapi.db.lifecycles.subscribe(async (event) => {
       const { model, action, result } = event;
 
@@ -26,6 +29,7 @@ export default {
               title,
               description,
               url,
+              content: flattenObject(result),
               type: 'single',
               cid: result.id,
               uid: model.uid,
@@ -50,6 +54,7 @@ export default {
               title,
               description,
               url,
+              content: flattenObject(result),
               type: 'collection',
               cid,
               uid,
@@ -68,20 +73,9 @@ export default {
             cid: result?.documentId,
           },
         })
-
+        
         if(!data) return;
 
-        const published = await strapi.db.query(model.uid).findOne({
-          where: {
-            documentId: result?.documentId,
-            publishedAt: {
-              $not: null,
-            }
-          },
-        })
-
-        console.log('published==', published)
-        
         const updated = await strapi.db.query('api::url-mapper.url-mapper').update({
           where: {
             cid: result?.documentId,
@@ -90,7 +84,7 @@ export default {
             title: result?.title,
             description: result?.description,
             url: result?.url,
-            published: !!published?.publishedAt ? true : false,
+            content: flattenObject(result),
           },
         })
         console.log('updated==', updated)
@@ -98,6 +92,4 @@ export default {
 
     });
   },
-
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
 };
