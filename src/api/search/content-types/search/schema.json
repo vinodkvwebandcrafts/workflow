@@ -1,0 +1,13 @@
+{
+  "kind": "singleType",
+  "collectionName": "searchs",
+  "info": {
+    "singularName": "search",
+    "pluralName": "searchs",
+    "displayName": "Search"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {}
+}

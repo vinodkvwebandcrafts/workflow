@@ -38,6 +38,7 @@ export default {
         }
                 
         if(ct?.kind === 'collectionType') {
+          console.log('result==', result)
           const title = result?.title;
           const description = result?.description;
           const url = result?.url;
@@ -87,7 +88,7 @@ export default {
             content: flattenObject(result),
           },
         })
-        console.log('updated==', updated)
+        // console.log('updated==', updated)
       }
 
     });

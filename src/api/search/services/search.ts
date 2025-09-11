@@ -1,0 +1,5 @@
+/**
+ * search service
+ */
+
+export default () => ({});

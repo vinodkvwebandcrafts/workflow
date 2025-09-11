@@ -11,11 +11,14 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "url": {
+      "type": "string"
+    },
     "title": {
       "type": "string"
     },
-    "url": {
-      "type": "string"
+    "description": {
+      "type": "text"
     },
     "type": {
       "type": "enumeration",
