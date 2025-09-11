@@ -31,8 +31,11 @@
     "description": {
       "type": "text"
     },
-    "content": {
-      "type": "richtext"
+    "widgets": {
+      "type": "dynamiczone",
+      "components": [
+        "common.content-area"
+      ]
     }
   }
 }

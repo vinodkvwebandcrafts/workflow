@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_common_content_areas",
+  "info": {
+    "displayName": "Content_area"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "richtext"
+    }
+  },
+  "config": {}
+}
